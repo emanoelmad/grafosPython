@@ -49,6 +49,7 @@ class UnionFind:
             self.rank[px] += 1
         return True
 
+#passo 2 Algoritmo de Kuskral
 class kuskralAlgoritmo:   
     
     def kruskal(matriz, tamanho):
@@ -133,7 +134,6 @@ class kuskralAlgoritmo:
                     if k == i or k == j:
                         continue
                     if matriz[i][j] > matriz[i][k] + matriz[k][j]:
-                        print(f"Violação: c({i},{j}) = {matriz[i][j]} > c({i},{k}) + c({k},{j}) = {matriz[i][k]} + {matriz[k][j]}")
                         violacoes += 1
         if violacoes == 0:
             return True

@@ -6,15 +6,16 @@ def main():
     """
     Função principal do programa.
     """
-    # print("=== Gerador de Grafos ===")
-    # print("Este é um gerador de grafos simples.")
-    # num_vertices = int(input("Digite o número de vértices do grafo: "))
-    # geradorArquivo.gerar_arquivo(num_vertices)
+    print("=== Gerador de Grafos ===")
+    print("Este é um gerador de grafos simples.")
+    num_vertices = int(input("Digite o número de vértices do grafo: "))
+    geradorArquivo.gerar_arquivo(num_vertices)
 
     # Busca o arquivo gerado e lê a matriz
     caminho_arquivo = "arquivo_exemplo"
     tamanho, matriz = geradorArquivo.ler_matriz_de_arquivo(caminho_arquivo)
     geradorArquivo.exibir_matriz(matriz,tamanho)
+    
     arestas_agm, peso_total, matrizDesigualdadeResolvida= algoritmos.kuskralAlgoritmo.kruskal(matriz, tamanho)
     impares = algoritmos.vertices_grau_impar(arestas_agm, tamanho)
     print("vertices de grau ímpar:", impares)

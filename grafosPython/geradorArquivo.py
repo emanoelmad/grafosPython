@@ -75,4 +75,3 @@ def exibir_matriz(matriz, tamanho):
             print(f"{matriz[i][j]:4d}", end="")
         print()
     
-    print("=" * (tamanho * 4 + 3))
