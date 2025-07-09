@@ -15,7 +15,16 @@ def main():
     caminho_arquivo = "arquivo_exemplo"
     tamanho, matriz = geradorArquivo.ler_matriz_de_arquivo(caminho_arquivo)
     geradorArquivo.exibir_matriz(matriz,tamanho)
-    arestas_agm, peso_total = algoritmos.kuskralAlgoritmo.kruskal(matriz, tamanho)
+    arestas_agm, peso_total, matrizDesigualdadeResolvida= algoritmos.kuskralAlgoritmo.kruskal(matriz, tamanho)
+    impares = algoritmos.vertices_grau_impar(arestas_agm, tamanho)
+    print("vertices de grau ímpar:", impares)
+    matching = algoritmos.emparelhamento_perfeito_minimo(matrizDesigualdadeResolvida, impares)
+    print("Emparelhamento perfeito mínimo:", matching)
+
+    arestas_multigrafo = algoritmos.unir_agm_emparelhamento(arestas_agm, matching, matrizDesigualdadeResolvida)
+    print("Arestas do multigrafo (AGM + emparelhamento):")
+    for origem, destino, peso in arestas_multigrafo:
+        print(f"{origem} -- {destino} (peso: {peso})")
 
 if __name__ == "__main__":
     main()

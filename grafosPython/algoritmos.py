@@ -1,5 +1,21 @@
 from grafosPython import geradorArquivo
+import networkx as nx
 
+
+def vertices_grau_impar(arestas_agm, tamanho):
+    """
+    Retorna uma lista com os vértices de grau ímpar na AGM.
+    Args:
+        arestas_agm: lista de arestas da AGM no formato (origem, destino, peso)
+        tamanho: número de vértices do grafo
+    Returns:
+        List[int]: vértices de grau ímpar
+    """
+    graus = [0] * tamanho
+    for origem, destino, _ in arestas_agm:
+        graus[origem] += 1
+        graus[destino] += 1
+    return [v for v in range(tamanho) if graus[v] % 2 == 1]
 
 class UnionFind:
     """
@@ -37,9 +53,9 @@ class kuskralAlgoritmo:
     
     def kruskal(matriz, tamanho):
         if not kuskralAlgoritmo.verifica_desigualdade_triangular(matriz):
-            xd = kuskralAlgoritmo.corrigir_desigualdade_triangular(matriz)
+            matriz = kuskralAlgoritmo.corrigir_desigualdade_triangular(matriz)
             print("\nDesigualdade triangular detectada e corrigida.")
-            geradorArquivo.exibir_matriz(xd,tamanho)
+            geradorArquivo.exibir_matriz(matriz,tamanho)
 
 
         
@@ -72,7 +88,8 @@ class kuskralAlgoritmo:
                     break
         
         kuskralAlgoritmo.exibir_agm(arestas_agm, peso_total, tamanho)
-        return arestas_agm, peso_total
+
+        return arestas_agm, peso_total, matriz
     
     def exibir_agm(arestas_agm, peso_total, tamanho):
 
@@ -136,3 +153,39 @@ class kuskralAlgoritmo:
                     if dist[i][j] > dist[i][k] + dist[k][j]:
                         dist[i][j] = dist[i][k] + dist[k][j]
         return dist
+
+
+ # Passo 3 Emparelhamento Perfeito Mínimo   
+def emparelhamento_perfeito_minimo(matriz, vertices_impares):
+
+
+
+    """
+    Retorna o emparelhamento perfeito mínimo no subgrafo induzido pelos vértices ímpares.
+    Args:
+        matriz: matriz de adjacência do grafo original
+        vertices_impares: lista de vértices de grau ímpar
+    Returns:
+        set de arestas do emparelhamento (tuplas (u, v))
+    """
+    G = nx.Graph()
+    for i in vertices_impares:
+        for j in vertices_impares:
+            if i < j:
+                G.add_edge(i, j, weight=matriz[i][j])
+    matching = nx.algorithms.matching.min_weight_matching(G)
+    
+    peso_matching = sum(matriz[u][v] for u, v in matching)
+    print("Peso total do emparelhamento:", peso_matching)
+    return matching
+
+# Passo 4 Unir AGM e Emparelhamento
+def unir_agm_emparelhamento(arestas_agm, matching, matriz):
+    """
+    Retorna a lista de arestas do multigrafo H (AGM + emparelhamento perfeito mínimo).
+    """
+    arestas_multigrafo = arestas_agm.copy()
+    for u, v in matching:
+        peso = matriz[u][v] if u < v else matriz[v][u]
+        arestas_multigrafo.append((u, v, peso))
+    return arestas_multigrafo
