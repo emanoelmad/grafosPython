@@ -189,3 +189,50 @@ def unir_agm_emparelhamento(arestas_agm, matching, matriz):
         peso = matriz[u][v] if u < v else matriz[v][u]
         arestas_multigrafo.append((u, v, peso))
     return arestas_multigrafo
+
+def ciclo_euleriano(arestas_multigrafo, tamanho):
+    """
+    Encontra um ciclo euleriano em um multigrafo usando o algoritmo de Hierholzer.
+    Args:
+        arestas_multigrafo: lista de arestas (u, v, peso)
+        tamanho: número de vértices
+    Returns:
+        Lista de vértices na ordem do ciclo euleriano
+    """
+    from collections import defaultdict, deque
+    # Constrói lista de adjacência com contagem de arestas (multigrafo)
+    adj = defaultdict(list)
+    for u, v, _ in arestas_multigrafo:
+        adj[u].append(v)
+        adj[v].append(u)
+    # Copia para manipulação
+    adj_copy = {k: adj[k][:] for k in adj}
+    stack = [next(iter(adj))]  # Começa de qualquer vértice
+    caminho = []
+    while stack:
+        v = stack[-1]
+        if adj_copy[v]:
+            u = adj_copy[v].pop()
+            adj_copy[u].remove(v)
+            stack.append(u)
+        else:
+            caminho.append(stack.pop())
+    caminho.reverse()
+    return caminho
+
+def ciclo_hamiltoniano_de_euleriano(ciclo_euleriano):
+    """
+    Realiza o shortcutting no ciclo euleriano para obter ciclo hamiltoniano.
+    Args:
+        ciclo_euleriano: lista de vértices do ciclo euleriano
+    Returns:
+        Lista de vértices do ciclo hamiltoniano
+    """
+    visitado = set()
+    ciclo_ham = []
+    for v in ciclo_euleriano:
+        if v not in visitado:
+            ciclo_ham.append(v)
+            visitado.add(v)
+    ciclo_ham.append(ciclo_ham[0])  # Fecha o ciclo
+    return ciclo_ham
