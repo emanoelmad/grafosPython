@@ -27,5 +27,23 @@ def main():
     for origem, destino, peso in arestas_multigrafo:
         print(f"{origem} -- {destino} (peso: {peso})")
 
+    # Encontrar ciclo euleriano
+    ciclo_euler = algoritmos.ciclo_euleriano(arestas_multigrafo, tamanho)
+    print("Ciclo Euleriano encontrado:")
+    print(ciclo_euler)
+
+    # Fazer shortcutting para obter ciclo hamiltoniano
+    ciclo_ham = algoritmos.ciclo_hamiltoniano_de_euleriano(ciclo_euler)
+    print("Ciclo Hamiltoniano (solução aproximada):")
+    print(ciclo_ham)
+
+    # Calcular o custo total do ciclo hamiltoniano
+    custo_total = 0
+    for i in range(len(ciclo_ham) - 1):
+        u = ciclo_ham[i]
+        v = ciclo_ham[i+1]
+        custo_total += matrizDesigualdadeResolvida[u][v]
+    print(f"Custo total do ciclo hamiltoniano: {custo_total}")
+
 if __name__ == "__main__":
     main()
