@@ -190,25 +190,36 @@ def unir_agm_emparelhamento(arestas_agm, matching, matriz):
         arestas_multigrafo.append((u, v, peso))
     return arestas_multigrafo
 
-def ciclo_euleriano(arestas_multigrafo, tamanho):
+def ciclo_euleriano(arestas_multigrafo):
     """
     Encontra um ciclo euleriano em um multigrafo usando o algoritmo de Hierholzer.
+    
     Args:
         arestas_multigrafo: lista de arestas (u, v, peso)
-        tamanho: número de vértices
+    
     Returns:
-        Lista de vértices na ordem do ciclo euleriano
+        List[int]: Lista de vértices na ordem do ciclo euleriano
     """
-    from collections import defaultdict, deque
     # Constrói lista de adjacência com contagem de arestas (multigrafo)
-    adj = defaultdict(list)
+    adj = {}
     for u, v, _ in arestas_multigrafo:
+        if u not in adj:
+            adj[u] = []
+        if v not in adj:
+            adj[v] = []
         adj[u].append(v)
         adj[v].append(u)
+
     # Copia para manipulação
     adj_copy = {k: adj[k][:] for k in adj}
-    stack = [next(iter(adj))]  # Começa de qualquer vértice
+
+    # Começa do vértice 0 se existir
+    vertices_disponiveis = list(adj.keys())
+    vertice_inicial = 0 if 0 in vertices_disponiveis else vertices_disponiveis[0]
+    stack = [vertice_inicial]
     caminho = []
+
+    # Algoritmo de Hierholzer
     while stack:
         v = stack[-1]
         if adj_copy[v]:
@@ -217,22 +228,32 @@ def ciclo_euleriano(arestas_multigrafo, tamanho):
             stack.append(u)
         else:
             caminho.append(stack.pop())
+
+    # Reverte o caminho para obter a ordem correta
     caminho.reverse()
     return caminho
 
 def ciclo_hamiltoniano_de_euleriano(ciclo_euleriano):
     """
-    Realiza o shortcutting no ciclo euleriano para obter ciclo hamiltoniano.
+    Realiza o shortcutting no ciclo euleriano para obter um ciclo hamiltoniano,
+    preservando a ordem original do ciclo euleriano.
+    
     Args:
         ciclo_euleriano: lista de vértices do ciclo euleriano
+    
     Returns:
-        Lista de vértices do ciclo hamiltoniano
+        List[int]: Lista de vértices do ciclo hamiltoniano
     """
-    visitado = set()
-    ciclo_ham = []
-    for v in ciclo_euleriano:
-        if v not in visitado:
-            ciclo_ham.append(v)
-            visitado.add(v)
-    ciclo_ham.append(ciclo_ham[0])  # Fecha o ciclo
-    return ciclo_ham
+    visitados = set()  # Conjunto para armazenar vértices já visitados
+    ciclo_hamiltoniano = []  # Lista para armazenar o ciclo hamiltoniano
+
+    for vertice in ciclo_euleriano:
+        if vertice not in visitados:
+            ciclo_hamiltoniano.append(vertice)
+            visitados.add(vertice)
+
+    # Fecha o ciclo hamiltoniano retornando ao vértice inicial
+    if ciclo_hamiltoniano and ciclo_hamiltoniano[0] != ciclo_hamiltoniano[-1]:
+        ciclo_hamiltoniano.append(ciclo_hamiltoniano[0])
+
+    return ciclo_hamiltoniano

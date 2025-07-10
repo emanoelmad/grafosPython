@@ -6,10 +6,10 @@ def main():
     """
     Função principal do programa.
     """
-    print("=== Gerador de Grafos ===")
-    print("Este é um gerador de grafos simples.")
-    num_vertices = int(input("Digite o número de vértices do grafo: "))
-    geradorArquivo.gerar_arquivo(num_vertices)
+    # print("=== Gerador de Grafos ===")
+    # print("Este é um gerador de grafos simples.")
+    # num_vertices = int(input("Digite o número de vértices do grafo: "))
+    # geradorArquivo.gerar_arquivo(num_vertices)
 
     # Busca o arquivo gerado e lê a matriz
     caminho_arquivo = "arquivo_exemplo"
@@ -26,6 +26,11 @@ def main():
     print("Arestas do multigrafo (AGM + emparelhamento):")
     for origem, destino, peso in arestas_multigrafo:
         print(f"{origem} -- {destino} (peso: {peso})")
+
+    cicloEuleriano = algoritmos.ciclo_euleriano(arestas_multigrafo)
+    print("Ciclo euleriano:", cicloEuleriano)
+    cicloHamiltoniano = algoritmos.ciclo_hamiltoniano_de_euleriano(cicloEuleriano)
+    print("Ciclo hamiltoniano:", cicloHamiltoniano)
 
 if __name__ == "__main__":
     main()
