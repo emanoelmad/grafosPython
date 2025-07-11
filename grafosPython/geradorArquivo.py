@@ -3,7 +3,7 @@ import random
 
 def gerar_arquivo(num_vertices):
     peso_min=1
-    peso_max=50
+    peso_max=100
     """
     Gera um arquivo de grafo no formato especificado.
     
@@ -20,8 +20,9 @@ def gerar_arquivo(num_vertices):
     for i in range(num_vertices):
         for j in range(i + 1, num_vertices):
             peso = random.randint(peso_min, peso_max)
+            peso2 = random.randint(peso_min, peso_max)
             matriz[i][j] = peso
-            matriz[j][i] = peso  # Grafo não-direcionado
+            matriz[j][i] = peso2  # Grafo não-direcionado
     
     # Salva no arquivo
     with open('arquivo_exemplo', 'w') as arquivo:
