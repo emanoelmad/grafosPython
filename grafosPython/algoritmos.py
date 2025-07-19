@@ -56,29 +56,14 @@ def verifica_desigualdade_triangular(matriz):
         print(f"Total de violações encontradas: {violacoes}")
         return False
 
-def corrigir_desigualdade_triangular(matriz):
-    n = len(matriz)
-    dist = [linha[:] for linha in matriz]
-    for k in range(n):
-        for i in range(n):
-            for j in range(n):
-                if dist[i][j] > dist[i][k] + dist[k][j]:
-                    dist[i][j] = dist[i][k] + dist[k][j]
-    # Torna a matriz simétrica
-    for i in range(n):
-        for j in range(n):
-            if i != j:
-                dist[i][j] = dist[j][i] = min(dist[i][j], dist[j][i])
-    return dist
 
 # Passo 1 Algoritmo de Prim 
 # Verifica se a matriz de adjacência satisfaz a desigualdade triangular
 def prim(matriz, tamanho):
 
-    if not verifica_desigualdade_triangular(matriz):
-        matriz = corrigir_desigualdade_triangular(matriz)
-        print("\nDesigualdade triangular detectada e corrigida.")
-        geradorArquivo.exibir_matriz(matriz,tamanho)
+    if not verifica_desigualdade_triangular(matriz):        
+        print("\nDesigualdade triangular detectada")
+        return [], matriz
     """
     Algoritmo de Prim para encontrar a Árvore Geradora Mínima.
     """
@@ -113,7 +98,7 @@ def prim(matriz, tamanho):
                 pais[v] = u
     exibir_agm(arestas_agm, peso_total, tamanho)
 
-    return arestas_agm, peso_total, matriz
+    return arestas_agm, matriz
 
 # Passo 2 Verifica os vértices de grau ímpar
 def vertices_grau_impar(arestas_agm, tamanho):

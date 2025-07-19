@@ -19,8 +19,10 @@ def main():
     # Passo 1: Verificando desigualdade triangular e gerando AGM
     print("=" * 30)
     print ("Passo 1: Verificando desigualdade triangular e gerando AGM")
-    arestas_agm, peso_total, matrizDesigualdadeResolvida= algoritmos.prim(matriz, tamanho)
-    
+    arestas_agm, matrizDesigualdadeResolvida = algoritmos.prim(matriz, tamanho)
+    if arestas_agm == []:
+        print("Não foi possível gerar a Árvore Geradora Mínima devido à desigualdade triangular.")
+        return
     
     # Passo 2: Verificando vértices de grau ímpar
     impares = algoritmos.vertices_grau_impar(arestas_agm, tamanho)
