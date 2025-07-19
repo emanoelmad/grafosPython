@@ -133,7 +133,7 @@ def emparelhamento_perfeito_minimo(matriz, vertices_impares):
 # Passo 4 Unir AGM e Emparelhamento
 def unir_agm_emparelhamento(arestas_agm, matching, matriz):
     """
-    Retorna a lista de arestas do multigrafo H (AGM + emparelhamento perfeito mínimo).
+    Retorna a lista de arestas do mltigrafo H (AGM + emparelhamento perfeito mínimo).
     """
     arestas_multigrafo = arestas_agm.copy()
     for u, v in matching:
