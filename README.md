@@ -56,7 +56,7 @@ O programa realiza os seguintes passos:
 1. **Leitura da matriz de adjacência**
    - Lê o arquivo de entrada e exibe a matriz.
 2. **Verificação da desigualdade triangular**
-   - Corrige a matriz, se necessário, para garantir que satisfaça a desigualdade triangular.
+   - Verifica se há desigualdade triangular se houver irá para a execução
 3. **Geração da Árvore Geradora Mínima (AGM)**
    - Utiliza o algoritmo de Prim para gerar a AGM e calcula seu peso.
 4. **Identificação dos vértices de grau ímpar**
@@ -85,7 +85,3 @@ O programa exibe no terminal:
 - Razão entre ciclo hamiltoniano e AGM
 - Indicação se está dentro da cota de 1.5×ótimo
 
----
-
-**Dúvidas ou problemas?**
-Entre em contato com o(s) autor(es) ou consulte o professor da disciplina.
