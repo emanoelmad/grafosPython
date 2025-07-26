@@ -19,7 +19,7 @@ def main():
     # Passo 1: Verificando desigualdade triangular e gerando AGM
     print("=" * 30)
     print ("Passo 1: Verificando desigualdade triangular e gerando AGM")
-    arestas_agm, matrizDesigualdadeResolvida = algoritmos.prim(matriz, tamanho)
+    arestas_agm, matrizDesigualdadeResolvida, peso_agm = algoritmos.prim(matriz, tamanho)
     if arestas_agm == []:
         print("Não foi possível gerar a Árvore Geradora Mínima devido à desigualdade triangular.")
         return
@@ -63,6 +63,14 @@ def main():
     peso_ciclo_hamiltoniano = algoritmos.calcular_peso_ciclo(cicloHamiltoniano, matrizDesigualdadeResolvida)
     print(f"Peso do ciclo hamiltoniano: {peso_ciclo_hamiltoniano}")
     print("=" * 30)
+
+    razao = peso_ciclo_hamiltoniano / peso_agm
+    print(f"Razão entre ciclo hamiltoniano e AGM: {razao:.3f}")
+    if razao <= 1.5:
+        print("✅ Solução dentro da cota 1.5×ótimo (Christofides)")
+    else:
+        print("❌ Solução ultrapassa a cota de 1.5×ótimo")
+
 
 if __name__ == "__main__":
     main()

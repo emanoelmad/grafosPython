@@ -49,12 +49,15 @@ def verifica_desigualdade_triangular(matriz):
                 if k == i or k == j:
                     continue
                 if matriz[i][j] > matriz[i][k] + matriz[k][j]:
+                    print(f"Violação: d({i},{j}) = {matriz[i][j]} > d({i},{k}) + d({k},{j}) = {matriz[i][k]} + {matriz[k][j]} = {matriz[i][k] + matriz[k][j]}")
                     violacoes += 1
     if violacoes == 0:
+        print("✅ Nenhuma violação da desigualdade triangular encontrada.")
         return True
     else:
-        print(f"Total de violações encontradas: {violacoes}")
+        print(f"❌ Total de violações encontradas: {violacoes}")
         return False
+
 
 
 # Passo 1 Algoritmo de Prim 
@@ -98,7 +101,7 @@ def prim(matriz, tamanho):
                 pais[v] = u
     exibir_agm(arestas_agm, peso_total, tamanho)
 
-    return arestas_agm, matriz
+    return arestas_agm, matriz,peso_total
 
 # Passo 2 Verifica os vértices de grau ímpar
 def vertices_grau_impar(arestas_agm, tamanho):
